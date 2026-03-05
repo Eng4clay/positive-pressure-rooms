@@ -36,23 +36,21 @@
             }
             .document-card {
                 box-shadow: none;
-                padding: 0.3in 0.3in;  /* reduced margins to fit tables */
+                padding: 0.3in 0.3in;
                 max-width: 100%;
             }
-            /* force both tables on first page by reducing size & spacing */
             .page-1 {
-                page-break-after: avoid;  /* keep page-1 content together */
+                page-break-after: avoid;
             }
             .page-1 table {
-                font-size: 11px;          /* slightly smaller for both tables */
+                font-size: 11px;
             }
             .page-1 td, .page-1 th {
                 padding: 3px 2px;
             }
-            /* second page margins */
             .page-2 {
                 margin-top: 0.2in;
-                page-break-before: always; /* ensures second page starts fresh */
+                page-break-before: always;
             }
             .print-button, .save-button, .clear-button, .small-note {
                 display: none;
@@ -68,13 +66,11 @@
             .info-value {
                 border-bottom: 1px solid black;
             }
-            /* reduce header spacing */
             .cluster-header { margin-bottom: 5px; }
             h1 { margin: 10px 0 5px; font-size: 26px; }
             .info-grid { padding: 8px 12px; margin: 10px 0; gap: 8px; }
             .ac-status, .check-mark { font-size: 11px; }
             .signature-line { margin: 15px 0; }
-            /* second page fine-tuning */
             .requirements-list { font-size: 11px; }
             .compliance-box { padding: 12px; font-size: 11px; }
         }
@@ -416,102 +412,142 @@
     </div> <!-- end page-2 -->
 </div>
 
-<!-- auto-save to localStorage (all fields) -->
+<!-- ======== FIXED JAVASCRIPT - NO MORE ALERTS ======== -->
 <script>
     (function() {
+        // دالة لجمع البيانات من جميع الحقول
         function getFormData() {
             const data = {};
+            
+            // الحقول المحددة بأيد
             data.hospitalName = document.getElementById('hospitalName')?.value || '';
             data.day = document.getElementById('day')?.value || '';
             data.bedCapacity = document.getElementById('bedCapacity')?.value || '';
             data.date = document.getElementById('date')?.value || '';
             data.cbahiStandard = document.getElementById('cbahiStandard')?.value || '';
             data.monthNo = document.getElementById('monthNo')?.value || '';
+            
+            // checkboxes
             data.notInactive = document.getElementById('notInactive')?.checked || false;
             data.acWorking = document.getElementById('acWorking')?.checked || false;
             data.acNotWorking = document.getElementById('acNotWorking')?.checked || false;
 
-            const allEditable = [];
+            // جميع المدخلات الأخرى (في الجداول)
+            const allInputs = [];
             document.querySelectorAll('input, textarea').forEach(el => {
+                // نتخطى الحقول التي أخذناها بالفعل
+                const id = el.id;
+                if (id === 'hospitalName' || id === 'day' || id === 'bedCapacity' || 
+                    id === 'date' || id === 'cbahiStandard' || id === 'monthNo' ||
+                    id === 'notInactive' || id === 'acWorking' || id === 'acNotWorking') {
+                    return;
+                }
+                
                 if (el.type === 'checkbox') {
-                    allEditable.push({ tag: 'checkbox', checked: el.checked, name: el.id || el.name });
+                    allInputs.push({ tag: 'checkbox', checked: el.checked });
                 } else {
-                    allEditable.push({ tag: 'text', value: el.value, name: el.id || el.name });
+                    allInputs.push({ tag: 'text', value: el.value });
                 }
             });
-            data.allEditable = allEditable;
+            data.allInputs = allInputs;
+            
             return data;
         }
 
+        // دالة لتحميل البيانات إلى الحقول
         function loadFormData(data) {
             if (!data) return;
+            
+            // الحقول الرئيسية
             if (data.hospitalName !== undefined) document.getElementById('hospitalName').value = data.hospitalName;
             if (data.day !== undefined) document.getElementById('day').value = data.day;
             if (data.bedCapacity !== undefined) document.getElementById('bedCapacity').value = data.bedCapacity;
             if (data.date !== undefined) document.getElementById('date').value = data.date;
             if (data.cbahiStandard !== undefined) document.getElementById('cbahiStandard').value = data.cbahiStandard;
             if (data.monthNo !== undefined) document.getElementById('monthNo').value = data.monthNo;
+            
+            // checkboxes
             if (data.notInactive !== undefined) document.getElementById('notInactive').checked = data.notInactive;
             if (data.acWorking !== undefined) document.getElementById('acWorking').checked = data.acWorking;
             if (data.acNotWorking !== undefined) document.getElementById('acNotWorking').checked = data.acNotWorking;
 
-            if (data.allEditable && Array.isArray(data.allEditable)) {
+            // باقي الحقول
+            if (data.allInputs && Array.isArray(data.allInputs)) {
                 const inputs = document.querySelectorAll('input, textarea');
-                let idx = 0;
-                data.allEditable.forEach(item => {
-                    if (idx >= inputs.length) return;
-                    const el = inputs[idx];
-                    if (item.tag === 'checkbox' && el.type === 'checkbox') {
-                        el.checked = item.checked;
-                    } else if (el.type !== 'checkbox') {
-                        el.value = item.value || '';
+                let index = 0;
+                for (let i = 0; i < inputs.length; i++) {
+                    const el = inputs[i];
+                    const id = el.id;
+                    // نتخطى الحقول المعروفة
+                    if (id === 'hospitalName' || id === 'day' || id === 'bedCapacity' || 
+                        id === 'date' || id === 'cbahiStandard' || id === 'monthNo' ||
+                        id === 'notInactive' || id === 'acWorking' || id === 'acNotWorking') {
+                        continue;
                     }
-                    idx++;
-                });
+                    
+                    if (index >= data.allInputs.length) break;
+                    
+                    const saved = data.allInputs[index];
+                    if (saved.tag === 'checkbox' && el.type === 'checkbox') {
+                        el.checked = saved.checked;
+                    } else if (el.type !== 'checkbox') {
+                        el.value = saved.value || '';
+                    }
+                    index++;
+                }
             }
         }
 
+        // دالة الحفظ - بدون alert
         window.saveFormData = function() {
             const data = getFormData();
             localStorage.setItem('positivePressureForm', JSON.stringify(data));
-            alert('Data saved in browser');
+            // لا يوجد alert هنا - تمت إزالة الرسالة المزعجة
         };
 
+        // دالة المسح
         window.clearFormData = function() {
             if (confirm('Clear all inputs? Are you sure?')) {
+                // مسح جميع الحقول النصية
                 document.querySelectorAll('input:not([type=checkbox]), textarea').forEach(el => el.value = '');
+                // إلغاء تحديد جميع checkbox
                 document.querySelectorAll('input[type=checkbox]').forEach(el => el.checked = false);
+                // إزالة من localStorage
                 localStorage.removeItem('positivePressureForm');
             }
         };
 
+        // تحميل البيانات عند فتح الصفحة
         window.addEventListener('load', function() {
             const saved = localStorage.getItem('positivePressureForm');
             if (saved) {
                 try {
                     const data = JSON.parse(saved);
                     loadFormData(data);
-                } catch (e) { console.warn('Error loading data'); }
+                } catch (e) {
+                    console.warn('Error loading data');
+                }
             }
         });
 
-        let timeout;
-document.addEventListener('input', function() {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => { 
-        const data = getFormData();
-        localStorage.setItem('positivePressureForm', JSON.stringify(data));
-        // بدون alert
-    }, 800);
-});
-document.addEventListener('change', function() {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => { 
-        const data = getFormData();
-        localStorage.setItem('positivePressureForm', JSON.stringify(data));
-        // بدون alert
-    }, 800);
-});
+        // الحفظ التلقائي بدون أي رسالة
+        let autoSaveTimeout;
+        function autoSave() {
+            const data = getFormData();
+            localStorage.setItem('positivePressureForm', JSON.stringify(data));
+            // بدون alert
+        }
+
+        document.addEventListener('input', function() {
+            clearTimeout(autoSaveTimeout);
+            autoSaveTimeout = setTimeout(autoSave, 800);
+        });
+        
+        document.addEventListener('change', function() {
+            clearTimeout(autoSaveTimeout);
+            autoSaveTimeout = setTimeout(autoSave, 800);
+        });
+    })();
 </script>
 <!-- KaTeX auto-render -->
 <script>
