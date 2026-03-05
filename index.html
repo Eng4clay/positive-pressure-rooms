@@ -496,15 +496,22 @@
         });
 
         let timeout;
-        document.addEventListener('input', function() {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => { saveFormData(); }, 800);
-        });
-        document.addEventListener('change', function() {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => { saveFormData(); }, 800);
-        });
-    })();
+document.addEventListener('input', function() {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => { 
+        const data = getFormData();
+        localStorage.setItem('positivePressureForm', JSON.stringify(data));
+        // بدون alert
+    }, 800);
+});
+document.addEventListener('change', function() {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => { 
+        const data = getFormData();
+        localStorage.setItem('positivePressureForm', JSON.stringify(data));
+        // بدون alert
+    }, 800);
+});
 </script>
 <!-- KaTeX auto-render -->
 <script>
