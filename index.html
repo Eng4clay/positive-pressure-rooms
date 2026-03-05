@@ -1,545 +1,574 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>غرف الضغط الإيجابي · مستشفى بني مالك</title>
-    <!-- KaTeX للمعادلات -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+    <title>Positive Pressure Rooms Weekly · Bani Malik General Hospital</title>
+    <!-- KaTeX for beautiful formulas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558AjM3Yz3BBFQUbk/zgIYC2R0QpeeYb+TwlBVMrlgLqwRjRtGZiK7ww" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '\\[', right: '\\]', display: true}, {left: '$', right: '$', display: false}]});"></script>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Segoe UI', 'Arial', sans-serif;
             background: #e6ecf0;
             display: flex;
             justify-content: center;
-            padding: 20px;
+            padding: 30px 15px;
         }
         .document-card {
-            max-width: 1100px;
+            max-width: 1200px;
             width: 100%;
             background: white;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            padding: 25px 30px;
-            border-radius: 18px;
+            padding: 40px 35px;
+            border-radius: 12px;
         }
 
-        /* طباعة */
+        /* صفحة واحدة عند الطباعة */
         @media print {
-            body { background: white; padding: 0.1in; }
-            .document-card { box-shadow: none; padding: 0.3in; }
-            .print-button, .save-button, .clear-button, .nav-button, .small-note { display: none; }
-            input { border: none; background: transparent; }
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            .document-card {
+                box-shadow: none;
+                padding: 0.5in 0.4in;
+                max-width: 100%;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+            .print-button, .save-button, .clear-button, .small-note {
+                display: none;
+            }
+            input, textarea {
+                border: none;
+                background: transparent;
+                padding: 0;
+            }
+            td input {
+                border: none;
+            }
+            .info-value {
+                border-bottom: 1px solid black;
+            }
         }
 
-        /* رأس الصفحة */
+        /* header with logo & hospital name */
         .cluster-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 3px solid #0047ab;
-            padding-bottom: 12px;
-            margin-bottom: 15px;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 15px;
         }
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .circular-logo {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #0047ab;
-            background: white;
-        }
-        .cluster-text {
-            font-size: 20px;
-            font-weight: 600;
-            color: #1e2b5a;
-            line-height: 1.2;
-        }
-        .cluster-text small {
-            font-size: 13px;
-            color: #2c3e50;
-            display: block;
+        .logo-area img {
+            max-height: 70px;
+            width: auto;
+            max-width: 300px;
+            object-fit: contain;
+            border-radius: 8px;
         }
         .hospital-title {
-            text-align: left;
-            font-size: 18px;
+            text-align: right;
+            font-size: 20px;
             font-weight: 500;
             background: #f0f6ff;
-            padding: 6px 18px;
-            border-radius: 30px;
+            padding: 8px 22px;
+            border-radius: 40px;
             color: #00337c;
         }
         .hospital-title span {
             font-weight: 700;
             color: #000;
         }
-
         h1 {
-            font-size: 24px;
+            font-size: 32px;
+            letter-spacing: 1px;
             color: #00205b;
-            margin: 10px 0 15px 0;
-            border-right: 8px solid #0047ab;
-            padding-right: 15px;
+            margin: 20px 0 10px 0;
+            text-transform: uppercase;
+            border-left: 8px solid #0047ab;
+            padding-left: 20px;
         }
-
-        /* شبكة المعلومات */
+        /* info grid */
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             background: #f2f7ff;
             border: 1px solid #b0c4de;
-            border-radius: 14px;
-            padding: 12px 15px;
-            margin: 15px 0 20px;
-            gap: 8px;
+            border-radius: 16px;
+            padding: 18px 20px;
+            margin: 20px 0 25px 0;
+            gap: 15px;
+            font-weight: 500;
         }
         .info-item {
             display: flex;
             flex-direction: column;
         }
         .info-label {
-            font-size: 11px;
+            font-size: 14px;
             color: #1e3a6b;
+            text-transform: uppercase;
             font-weight: 600;
-            white-space: nowrap;
         }
         .info-value {
-            font-size: 15px;
+            font-size: 20px;
             font-weight: 700;
             border-bottom: 2px dashed #2a5c9a;
-            padding: 3px 0;
-            width: 100%;
+            padding: 5px 0 3px;
+            display: inline-block;
+            max-width: 180px;
         }
+        .info-value.underline {
+            border-bottom: 2px solid #0b2b5c;
+            font-family: 'Courier New', monospace;
+        }
+        /* استايل الحقول النصية */
         input, textarea {
             font-family: inherit;
-            font-size: 13px;
-            padding: 4px 8px;
+            font-size: 15px;
+            padding: 6px 8px;
             border: 1px solid #a0b8d0;
-            border-radius: 6px;
+            border-radius: 8px;
             width: 100%;
+            max-width: 100%;
+            background-color: #fff;
+            transition: 0.1s;
         }
+        input:focus, textarea:focus {
+            border-color: #0047ab;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0,71,171,0.2);
+        }
+        /* تنسيق الخلايا مع الحقول */
         td input {
+            width: 100%;
             border: none;
-            border-bottom: 1px dashed #9bb7d4;
-            border-radius: 0;
-            padding: 2px 2px;
             background: transparent;
-            font-size: 12px;
+            padding: 4px;
+            border-radius: 0;
+            border-bottom: 1px dashed #9bb7d4;
         }
         td input:focus {
             border-bottom: 2px solid #0047ab;
             background: #f0f7ff;
-            outline: none;
         }
         .status-positive input {
-            color: #00753a;
-            font-weight: 600;
             text-align: center;
-        }
-
-        /* الجداول */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 8px 0;
-            font-size: 12px;
-        }
-        th {
-            background-color: #00337c;
-            color: white;
             font-weight: 600;
-            padding: 6px 3px;
-            border: 1px solid #256bb0;
-            font-size: 12px;
-            white-space: nowrap;
-        }
-        td {
-            border: 1px solid #9bb7d4;
-            padding: 3px 2px;
-        }
-
-        /* جدول المشاكل أصغر */
-        .problem-table th {
-            font-size: 11px;
-            padding: 4px 2px;
-        }
-        .problem-table td {
-            padding: 2px 1px;
-        }
-
-        /* حالة التكييف */
-        .ac-status {
-            background: #fff9e0;
-            padding: 8px 18px;
-            border-radius: 30px;
-            display: inline-block;
-            font-size: 13px;
-            margin: 8px 0;
+            color: #00753a;
         }
         .inline-checkbox {
-            transform: scale(1.1);
-            margin: 0 5px;
+            transform: scale(1.2);
+            margin: 0 10px 0 5px;
+            width: auto;
         }
-
-        /* التواقيع */
+        .ac-status {
+            background: #fff9e0;
+            padding: 12px 20px;
+            border-radius: 40px;
+            display: inline-block;
+            font-weight: 500;
+            margin: 10px 0 15px;
+        }
+        .job-order-note {
+            background: #eef6ff;
+            border-left: 6px solid #cc3300;
+            padding: 10px 20px;
+            margin: 15px 0;
+            border-radius: 0 20px 20px 0;
+        }
         .signature-line {
             display: flex;
-            gap: 20px;
-            margin: 20px 0 15px;
+            gap: 40px;
+            margin: 30px 0 20px;
+            flex-wrap: wrap;
         }
         .signature-item {
-            flex: 1;
+            flex: 1 1 200px;
             border-bottom: 2px solid #2c3e50;
             padding-bottom: 5px;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 5px;
+            margin-right: 15px;
         }
         .signature-item input {
             border: none;
             border-bottom: 1px dashed #333;
-            width: auto;
-            flex: 1;
-            min-width: 80px;
-            margin-right: 5px;
+            width: 70%;
+            margin-left: 8px;
         }
-
-        /* أزرار التنقل بين الصفحات */
-        .navigation-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
-        }
-        .nav-button {
-            background: #6c757d;
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 40px;
-            font-size: 15px;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-        }
-        .nav-button:hover {
-            background: #5a6268;
-        }
-        .nav-button.active {
-            background: #0047ab;
-            font-weight: bold;
-        }
-
-        /* الصفحات */
-        .page {
-            display: none;
-        }
-        .page.active-page {
-            display: block;
-        }
-
-        /* الصفحة الثانية */
         .compliance-box {
             background: #ebf3fa;
-            padding: 18px 22px;
-            border-radius: 20px;
-            margin: 20px 0;
+            padding: 22px 25px;
+            border-radius: 24px;
+            margin: 25px 0;
+            border: 1px solid #a0c4e2;
         }
         .formula-block {
             background: white;
             border-radius: 12px;
-            padding: 12px 18px;
-            margin: 12px 0;
+            padding: 12px 20px;
+            margin: 10px 0;
+            font-size: 16px;
         }
-        .button-group {
-            text-align: center;
-            margin: 20px 0 5px;
+        hr {
+            border: 1px solid #c9d9e9;
+            margin: 30px 0 20px;
         }
         .print-button, .save-button, .clear-button {
             background: #002b5c;
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 30px;
-            font-size: 14px;
+            padding: 12px 20px;
+            border-radius: 40px;
+            font-size: 16px;
             cursor: pointer;
-            margin: 3px;
+            box-shadow: 0 3px 8px rgba(0,67,156,0.3);
+            transition: 0.2s;
+            margin: 5px;
         }
         .save-button { background: #1f5c2e; }
         .clear-button { background: #9e3b3b; }
-        .small-note { font-size: 11px; color: #4a6f8a; margin-top: 10px; }
+        .print-button:hover { background: #104f8f; }
+        .save-button:hover { background: #2d7a41; }
+        .clear-button:hover { background: #b54b4b; }
+
+        .problem-table td { vertical-align: top; }
+        /* تلميحات */
+        .small-note { font-size: 12px; color: #4a6f8a; margin-top: 20px; }
+        .button-group { text-align: center; margin-top: 20px; }
+
+        /* فاصل صفحات */
+        .page-break {
+            page-break-before: always;
+            margin-top: 30px;
+        }
+        /* تحسين حجم الجدول */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        th {
+            background-color: #00337c;
+            color: white;
+            font-weight: 600;
+            padding: 8px 4px;
+            border: 1px solid #256bb0;
+        }
+        td {
+            border: 1px solid #9bb7d4;
+            padding: 6px 4px;
+        }
+        /* ضبط الهوامش للصفحة الثانية */
+        .second-page {
+            margin-top: 20px;
+        }
+        /* تحسين عرض القائمة */
+        .requirements-list ul {
+            columns: 2;
+            list-style-type: disc;
+            padding-left: 25px;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
 <div class="document-card">
-    <!-- رأس الصفحة بالشعار (دائري) - يظهر في كل الصفحات -->
-    <div class="cluster-header">
-        <div class="logo-area">
-            <!-- استبدل my-logo.png باسم ملف الشعار الخاص بك -->
-            <img src="my-logo.png" alt="شعار المستشفى" class="circular-logo">
-            <div class="cluster-text">
-                تجمع جازان الصحي<br>
-                <small>JAZAN HEALTH CLUSTER</small>
+    <!-- الصفحة الأولى -->
+    <div class="page-1">
+        <!-- Header with Jazan Health Cluster logo (image) and hospital name -->
+        <div class="cluster-header">
+            <div class="logo-area">
+                <!-- استخدم logo.jpeg أو أي اسم صحيح -->
+                <img src="logo.jpeg" alt="Jazan Health Cluster logo" style="height:70px; width:auto; max-width:280px; object-fit: contain;">
+            </div>
+            <div class="hospital-title">
+                <span dir="rtl">مستشفى بني مالك العام</span><br>
+                <span style="font-size: 16px;">BANI MALIK GENERAL HOSPITAL</span>
             </div>
         </div>
-        <div class="hospital-title">
-            <span>مستشفى بني مالك العام</span><br>
-            <span style="font-size: 13px;">BANI MALIK GENERAL HOSPITAL</span>
-        </div>
-    </div>
 
-    <!-- أزرار التنقل بين الصفحات -->
-    <div class="navigation-buttons">
-        <button id="btnPage1" class="nav-button active" onclick="showPage(1)">📋 الصفحة الأولى - الفحص الأسبوعي</button>
-        <button id="btnPage2" class="nav-button" onclick="showPage(2)">📚 الصفحة الثانية - المعايير والمعادلات</button>
-    </div>
+        <h1>POSITIVE PRESSURE ROOMS WEEKLY</h1>
 
-    <!-- ========== الصفحة الأولى ========== -->
-    <div id="page1" class="page active-page">
-        <h1>📋 غرف الضغط الإيجابي – الفحص الأسبوعي</h1>
-
-        <!-- بيانات المستشفى -->
+        <!-- Info grid with input fields -->
         <div class="info-grid">
-            <div class="info-item"><span class="info-label">اسم المستشفى</span><input type="text" class="info-value" value="مستشفى بني مالك العام" id="hospitalName"></div>
-            <div class="info-item"><span class="info-label">اليوم</span><input type="text" class="info-value" value="الأحد" id="day"></div>
-            <div class="info-item"><span class="info-label">سعة الأسرة</span><input type="text" class="info-value" value="50" id="bedCapacity"></div>
-            <div class="info-item"><span class="info-label">التاريخ</span><input type="text" class="info-value" value="2025/___/___" id="date"></div>
-            <div class="info-item"><span class="info-label">CBAHI AIIR</span><input type="text" class="info-value" value="15" id="cbahiStandard"></div>
-            <div class="info-item"><span class="info-label">الشهر رقم</span><input type="text" class="info-value" value="4" id="monthNo"></div>
+            <div class="info-item">
+                <span class="info-label">Hospital Name</span>
+                <input type="text" class="info-value underline" value="مستشفى بني مالك العام" placeholder="اسم المستشفى" id="hospitalName">
+            </div>
+            <div class="info-item">
+                <span class="info-label">DAY</span>
+                <input type="text" class="info-value" value="الأحد" placeholder="اليوم" id="day">
+            </div>
+            <div class="info-item">
+                <span class="info-label">Hospital Bed Capacity</span>
+                <input type="text" class="info-value" value="50" placeholder="السعة" id="bedCapacity">
+            </div>
+            <div class="info-item">
+                <span class="info-label">DATE</span>
+                <input type="text" class="info-value" value="2025 / ____ / ____" placeholder="YYYY/MM/DD" id="date">
+            </div>
+            <div class="info-item">
+                <span class="info-label">CBAHI AIIR standard</span>
+                <input type="text" class="info-value" value="15" id="cbahiStandard">
+            </div>
+            <div class="info-item">
+                <span class="info-label">MON NO.</span>
+                <input type="text" class="info-value" value="4" id="monthNo">
+            </div>
         </div>
 
-        <!-- حالة الغرف -->
-        <div style="display: flex; align-items: center; gap: 15px; margin: 10px 0;">
-            <span style="background: #0047ab; color: white; padding: 4px 16px; border-radius: 25px; font-size: 13px;">☑ الغرف عملية</span>
-            <span style="color: #008000; font-size: 18px;">✅ تم التحقق</span>
+        <!-- Rooms functional indicator -->
+        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 8px;">
+            <span style="background: #0047ab; color: white; padding: 5px 18px; border-radius: 30px;">☑ ROOMS ARE FUNCTIONAL</span>
+            <span class="check-mark">✅ verified</span>
         </div>
 
-        <!-- الجدول الرئيسي (قياسات الغرف) -->
-        <table>
+        <!-- Main rooms table with input fields -->
+        <table id="roomsTable">
             <thead>
                 <tr>
-                    <th>رقم الغرفة</th><th>الجناح</th><th>الطابق</th><th>درجة حرارة</th><th>الرطوبة</th><th>ACH</th><th>الضغط (Pa)</th>
+                    <th>Room No.</th> <th>Ward</th> <th>Floor</th> <th>Temp</th> <th>Humidity</th> <th>ACH</th> <th>Pressure (Pa)</th>
                 </tr>
             </thead>
             <tbody>
-                <tr><td>DR1</td><td><input placeholder="الجناح"></td><td><input placeholder="الطابق"></td><td><input placeholder="___ °C"></td><td><input placeholder="___ %"></td><td><input placeholder="ACH"></td><td class="status-positive"><input value="POSITIVE"></td></tr>
-                <tr><td>DR2</td><td><input placeholder="الجناح"></td><td><input placeholder="الطابق"></td><td><input placeholder="___ °C"></td><td><input placeholder="___ %"></td><td><input placeholder="ACH"></td><td class="status-positive"><input value="POSITIVE"></td></tr>
-                <tr><td>ICU</td><td><input placeholder="الجناح"></td><td><input placeholder="الطابق"></td><td><input placeholder="___ °C"></td><td><input placeholder="___ %"></td><td><input placeholder="ACH"></td><td class="status-positive"><input value="POSITIVE"></td></tr>
-                <tr><td>Mw</td><td><input placeholder="الجناح"></td><td><input placeholder="الطابق"></td><td><input placeholder="___ °C"></td><td><input placeholder="___ %"></td><td><input placeholder="ACH"></td><td class="status-positive"><input value="POSITIVE"></td></tr>
-                <tr><td>Fmw</td><td><input placeholder="الجناح"></td><td><input placeholder="الطابق"></td><td><input placeholder="___ °C"></td><td><input placeholder="___ %"></td><td><input placeholder="ACH"></td><td class="status-positive"><input value="POSITIVE"></td></tr>
-                <tr><td>Trauma</td><td><input placeholder="الجناح"></td><td><input placeholder="الطابق"></td><td><input placeholder="___ °C"></td><td><input placeholder="___ %"></td><td><input placeholder="ACH"></td><td class="status-positive"><input value="POSITIVE"></td></tr>
-                <tr><td>PICU</td><td><input placeholder="الجناح"></td><td><input placeholder="الطابق"></td><td><input placeholder="___ °C"></td><td><input placeholder="___ %"></td><td><input placeholder="ACH"></td><td class="status-positive"><input value="POSITIVE"></td></tr>
-                <tr><td><input placeholder="رقم"></td><td><input placeholder="الجناح"></td><td><input placeholder="الطابق"></td><td><input placeholder="___ °C"></td><td><input placeholder="___ %"></td><td><input placeholder="ACH"></td><td><input placeholder="+/-"></td></tr>
+                <tr class="room-row"><td>DR1</td><td><input type="text" placeholder="الجناح"></td><td><input type="text" placeholder="الطابق"></td><td><input type="text" placeholder="___ °C"></td><td><input type="text" placeholder="___ %"></td><td><input type="text" placeholder="ACH"></td><td class="status-positive"><input type="text" value="POSITIVE" placeholder="POSITIVE"></td></tr>
+                <tr class="room-row"><td>DR2</td><td><input type="text" placeholder="الجناح"></td><td><input type="text" placeholder="الطابق"></td><td><input type="text" placeholder="___ °C"></td><td><input type="text" placeholder="___ %"></td><td><input type="text" placeholder="ACH"></td><td class="status-positive"><input type="text" value="POSITIVE" placeholder="POSITIVE"></td></tr>
+                <tr class="room-row"><td>ICU</td><td><input type="text" placeholder="الجناح"></td><td><input type="text" placeholder="الطابق"></td><td><input type="text" placeholder="___ °C"></td><td><input type="text" placeholder="___ %"></td><td><input type="text" placeholder="ACH"></td><td class="status-positive"><input type="text" value="POSITIVE" placeholder="POSITIVE"></td></tr>
+                <tr class="room-row"><td>Mw</td><td><input type="text" placeholder="الجناح"></td><td><input type="text" placeholder="الطابق"></td><td><input type="text" placeholder="___ °C"></td><td><input type="text" placeholder="___ %"></td><td><input type="text" placeholder="ACH"></td><td class="status-positive"><input type="text" value="POSITIVE" placeholder="POSITIVE"></td></tr>
+                <tr class="room-row"><td>Fmw</td><td><input type="text" placeholder="الجناح"></td><td><input type="text" placeholder="الطابق"></td><td><input type="text" placeholder="___ °C"></td><td><input type="text" placeholder="___ %"></td><td><input type="text" placeholder="ACH"></td><td class="status-positive"><input type="text" value="POSITIVE" placeholder="POSITIVE"></td></tr>
+                <tr class="room-row"><td>Trauma Room</td><td><input type="text" placeholder="الجناح"></td><td><input type="text" placeholder="الطابق"></td><td><input type="text" placeholder="___ °C"></td><td><input type="text" placeholder="___ %"></td><td><input type="text" placeholder="ACH"></td><td class="status-positive"><input type="text" value="POSITIVE" placeholder="POSITIVE"></td></tr>
+                <tr class="room-row"><td>PICU</td><td><input type="text" placeholder="الجناح"></td><td><input type="text" placeholder="الطابق"></td><td><input type="text" placeholder="___ °C"></td><td><input type="text" placeholder="___ %"></td><td><input type="text" placeholder="ACH"></td><td class="status-positive"><input type="text" value="POSITIVE" placeholder="POSITIVE"></td></tr>
+                <!-- extra rows for manual addition -->
+                <tr><td><input type="text" placeholder="رقم الغرفة"></td><td><input type="text" placeholder="الجناح"></td><td><input type="text" placeholder="الطابق"></td><td><input type="text" placeholder="___ °C"></td><td><input type="text" placeholder="___ %"></td><td><input type="text" placeholder="ACH"></td><td><input type="text" placeholder="POSITIVE/NEGATIVE"></td></tr>
+                <tr><td><input type="text" placeholder="رقم الغرفة"></td><td><input type="text" placeholder="الجناح"></td><td><input type="text" placeholder="الطابق"></td><td><input type="text" placeholder="___ °C"></td><td><input type="text" placeholder="___ %"></td><td><input type="text" placeholder="ACH"></td><td><input type="text" placeholder="POSITIVE/NEGATIVE"></td></tr>
             </tbody>
         </table>
 
-        <!-- حالة التدفق والتكييف -->
-        <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 20px; margin: 15px 0 10px;">
-            <span style="font-weight: 600;">💨 تدفق الهواء فعال</span>
-            <label><input type="checkbox" class="inline-checkbox" id="notInactive" checked> غير معطل</label>
+        <!-- Airflow & AC status with interactive checkboxes -->
+        <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 30px; margin: 15px 0 25px;">
+            <span style="font-size: 18px; font-weight: 500;">💨 THE AIR FLOW IS EFFICIENT.</span>
+            <label><input type="checkbox" class="inline-checkbox" id="notInactive" checked> Not Inactive</label>
             <span class="ac-status">
-                التكييف: <input type="checkbox" class="inline-checkbox" id="acWorking" checked> يعمل 
-                <input type="checkbox" class="inline-checkbox" id="acNotWorking"> لا يعمل
+                Air conditioning / AC : <input type="checkbox" class="inline-checkbox" id="acWorking" checked> Working 
+                <input type="checkbox" class="inline-checkbox" id="acNotWorking"> Not Working
             </span>
         </div>
 
-        <!-- الجدول الثاني (الأعطال والإجراءات) بحجم أصغر -->
-        <table class="problem-table" style="margin-top: 5px;">
+        <!-- Problem / Action table with inputs -->
+        <table class="problem-table" id="problemTable">
             <thead>
                 <tr>
-                    <th>رقم الغرفة</th>
-                    <th>الجناح</th>
-                    <th>الطابق</th>
-                    <th>وصف المشكلة</th>
-                    <th>الموظف الفني</th>
-                    <th>مكافحة العدوى</th>
+                    <th>Room Numb</th> <th>Ward</th> <th>Floor</th> <th>Describe Problem<br> <span dir="rtl">وصف مشكلة الاعطال</span></th>
+                    <th colspan="2">Action Taken</th>
+                </tr>
+                <tr>
+                    <th colspan="4"></th> <th>Utility & Maintenance Staff</th> <th>Infection Control Staff</th>
                 </tr>
             </thead>
             <tbody>
-                <tr><td><input placeholder="رقم"></td><td><input placeholder="الجناح"></td><td><input placeholder="الطابق"></td><td><input placeholder="وصف المشكلة"></td><td><input placeholder="الموظف"></td><td><input placeholder="الموظف"></td></tr>
-                <tr><td><input placeholder="رقم"></td><td><input placeholder="الجناح"></td><td><input placeholder="الطابق"></td><td><input placeholder="وصف المشكلة"></td><td><input placeholder="الموظف"></td><td><input placeholder="الموظف"></td></tr>
-                <tr><td><input placeholder="رقم"></td><td><input placeholder="الجناح"></td><td><input placeholder="الطابق"></td><td><input placeholder="وصف المشكلة"></td><td><input placeholder="الموظف"></td><td><input placeholder="الموظف"></td></tr>
+                <tr><td><input type="text" placeholder="رقم"></td><td><input type="text" placeholder="الجناح"></td><td><input type="text" placeholder="الطابق"></td><td><input type="text" placeholder="وصف المشكلة"></td><td><input type="text" placeholder="الموظف"></td><td><input type="text" placeholder="الموظف"></td></tr>
+                <tr><td><input type="text" placeholder="رقم"></td><td><input type="text" placeholder="الجناح"></td><td><input type="text" placeholder="الطابق"></td><td><input type="text" placeholder="وصف المشكلة"></td><td><input type="text" placeholder="الموظف"></td><td><input type="text" placeholder="الموظف"></td></tr>
+                <tr><td><input type="text" placeholder="رقم"></td><td><input type="text" placeholder="الجناح"></td><td><input type="text" placeholder="الطابق"></td><td><input type="text" placeholder="وصف المشكلة"></td><td><input type="text" placeholder="الموظف"></td><td><input type="text" placeholder="الموظف"></td></tr>
+                <tr><td><input type="text" placeholder="رقم"></td><td><input type="text" placeholder="الجناح"></td><td><input type="text" placeholder="الطابق"></td><td><input type="text" placeholder="وصف المشكلة"></td><td><input type="text" placeholder="الموظف"></td><td><input type="text" placeholder="الموظف"></td></tr>
             </tbody>
         </table>
 
-        <!-- التواقيع (أسفل الجدول الثاني) -->
+        <!-- Signatures with input fields -->
         <div class="signature-line">
-            <div class="signature-item">
-                <strong>المهندس المسؤول:</strong>
-                <input type="text" placeholder="الاسم">
-                <span>التوقيع والتاريخ <input type="text" placeholder="تاريخ"></span>
-            </div>
-            <div class="signature-item">
-                <strong>مكافحة العدوى:</strong>
-                <input type="text" placeholder="التعليق">
-                <span>التوقيع والتاريخ <input type="text" placeholder="تاريخ"></span>
-            </div>
+            <div class="signature-item"><strong>Checked by Engineer</strong> <input type="text" placeholder="الاسم"> <span>Date & sig <input type="text" placeholder="التاريخ"></span></div>
+            <div class="signature-item"><strong>Infection Control Comments</strong> <input type="text" placeholder="تعليق"> <span>Date & sig <input type="text" placeholder="التاريخ"></span></div>
         </div>
     </div> <!-- نهاية الصفحة الأولى -->
 
-    <!-- ========== الصفحة الثانية ========== -->
-    <div id="page2" class="page">
-        <h1>📚 المعايير والمعادلات الفنية</h1>
+    <!-- فاصل صفحات للطباعة -->
+    <div class="page-break"></div>
 
-        <!-- قائمة المتطلبات الأساسية -->
-        <div style="background: #e3efff; border-radius: 18px; padding: 16px 20px; margin: 20px 0;">
-            <ul style="columns: 2; list-style-type: disc; padding-right: 25px; font-weight: 500; font-size: 13px;">
-                <li>نطاق الضغط الموجب: 2.5 – 6 باسكال (Pa)</li>
-                <li>معدل تغيير الهواء: لا يقل عن 7 مرات/ساعة</li>
-                <li>الأنظمة تفحص بواسطة الخدمات الهندسية</li>
-                <li>فتح أمر عمل للصيانة عند وجود مشكلة</li>
-                <li>إبلاغ قسم مكافحة العدوى (IPC)</li>
-                <li>التحقق شهرياً وأسبوعياً في حالة وجود مريض</li>
+    <!-- الصفحة الثانية -->
+    <div class="page-2 second-page">
+        <!-- قائمة المتطلبات -->
+        <div style="background: #e3efff; border-radius: 20px; padding: 16px 25px; margin: 0 0 20px 0;">
+            <ul class="requirements-list">
+                <li>Positive pressure Range should be between 2.5 to 6 Pa (Pascal)</li>
+                <li>Air Exchange Rate per hour will not be less than 7 times/hrs</li>
+                <li>Systems must be checked by engineering services.</li>
+                <li>Open job order with Utilities and Maintenance (U&M) if there problem.</li>
+                <li>Notify Infection Prevention & Control Department (IPC)</li>
+                <li>Positive Pressure Room is maintained monthly and if there patient. The week's room in the offer has been verified by sight.</li>
             </ul>
         </div>
 
-        <!-- مرجع ASHRAE والمعادلات -->
+        <!-- ASHRAE compliance + formulas -->
         <div class="compliance-box">
-            <h3 style="color: #002b5c; margin-top: 0;">📋 مرجع الامتثال – ASHRAE 170-2021</h3>
-            <p style="font-size: 13px;">وفقاً للمعيار، يجب الحفاظ على فرق ضغط موجب لا يقل عن <strong>2.5+ Pa</strong> بالنسبة للمناطق المجاورة. الحد الأعلى 6 باسكال يعتبر ممارسة هندسية مثلى.</p>
+            <h3 style="color: #002b5c; margin-top: 0;">📋 Compliance Note – ASHRAE Standard 170-2021</h3>
+            <p>In accordance with ASHRAE 170‑2021, positive pressure differential shall be maintained at a <strong>minimum of +2.5 Pa</strong> relative to adjacent areas. While no absolute maximum is mandated, maintaining an upper limit of <strong>+6 Pa</strong> is considered best engineering practice to ensure door operability and effective airflow containment. The facility adopts <strong>2.5 – 6 Pa</strong> as its operational benchmark.</p>
 
-            <h4 style="margin: 15px 0 5px;">معادلات الحساب الأساسية</h4>
+            <h4 style="margin: 20px 0 5px;">Key Formulas for Field Calculation</h4>
             <div class="formula-block">
-                <p><strong>1. معدل تغيير الهواء (ACH)</strong><br>
-                \[ACH = \frac{Q}{V}\] حيث \(Q\) = معدل تدفق الهواء (م³/س)، \(V\) = حجم الغرفة (م³) = طول × عرض × ارتفاع</p>
-                <p><strong>2. معدل التدفق من السرعة</strong><br>
-                \[Q = A \times v \times 3600\] حيث \(A\) = مساحة الفتحة (م²)، \(v\) = سرعة الهواء (م/ث)</p>
-                <p><strong>3. فرق الضغط من السرعة</strong><br>
-                \[\Delta P = \frac{1}{2} \rho v^{2}\] حيث \(\rho \approx 1.2\ \text{كغ/م}^3\) كثافة الهواء، \(v\) = سرعة الهواء (م/ث)</p>
+                <p><strong>1. Air Changes per Hour (ACH)</strong><br>
+                \[ACH = \frac{Q}{V}\]<br>
+                <em>Where:</em> \(Q\) = Supply airflow rate (m³/h),  \(V\) = Room volume (m³) = Length × Width × Height</p>
+
+                <p><strong>2. Airflow Rate from Velocity</strong> (if hood not used)<br>
+                \[Q = A \times v \times 3600\]<br>
+                <em>Where:</em> \(A\) = Diffuser free area (m²),  \(v\) = Measured air velocity (m/s)</p>
+
+                <p><strong>3. Differential Pressure</strong> (from velocity, if needed)<br>
+                \[\Delta P = \frac{1}{2} \rho v^{2}\]<br>
+                <em>Where:</em> \(\rho \approx 1.2\ \text{kg/m}^3\) (air density at standard conditions),  \(v\) = Air velocity (m/s)</p>
             </div>
 
-            <h4>🔑 المصطلحات الأساسية</h4>
-            <p style="display: flex; gap: 20px; flex-wrap: wrap; font-size: 12px;">
-                <span>• فرق الضغط (ΔP) – باسكال</span>
-                <span>• ACH – معدل تغيير الهواء</span>
-                <span>• IPC – مكافحة العدوى</span>
-                <span>• أمر العمل – Work Order</span>
+            <h4>🔑 Key Terminology</h4>
+            <p style="display: flex; gap: 30px; flex-wrap: wrap;">
+                <span>• Differential Pressure (ΔP) – Pascals (Pa)</span>
+                <span>• Air Changes per Hour (ACH)</span>
+                <span>• Infection Prevention & Control (IPC)</span>
+                <span>• Corrective Maintenance / Work Order</span>
             </p>
 
-            <h4>📌 بروتوكول العمل</h4>
-            <ul style="font-size: 12px;">
-                <li>التحقق أسبوعياً من الضغط عند وجود مريض.</li>
-                <li>تسجيل جميع القراءات وإبلاغ الصيانة عند الانحراف.</li>
-                <li>إخطار مكافحة العدوى فوراً إذا انخفض الضغط عن 2.5+ Pa.</li>
+            <h4>📌 Action Protocol</h4>
+            <ul>
+                <li>Verify pressure <strong>weekly</strong> when room is occupied.</li>
+                <li>Log all readings and report deviations to Utilities & Maintenance (U&M) via work order.</li>
+                <li>Notify IPC immediately if pressure falls below +2.5 Pa or reverses.</li>
             </ul>
         </div>
 
-        <!-- تذكير بأمر العمل -->
-        <div style="background: #eef6ff; border-right: 6px solid #cc3300; padding: 10px 18px; border-radius: 0 20px 20px 0; margin: 15px 0; font-size: 13px;">
-            ⚙️ <strong>فتح أمر عمل للصيانة عند أي انحراف. إبلاغ مكافحة العدوى فوراً.</strong>
+        <!-- Reminder -->
+        <div class="job-order-note">
+            ⚙️ <strong>Open job order with U&M if any deviation.  Notify Infection Prevention & Control (IPC).</strong>
+        </div>
+
+        <!-- Buttons group for save/load/print (تظهر فقط على الشاشة) -->
+        <div class="button-group">
+            <button class="save-button" onclick="saveFormData()">💾 حفظ البيانات</button>
+            <button class="clear-button" onclick="clearFormData()">🗑️ مسح الحقول</button>
+            <button class="print-button" onclick="window.print()">🖨️ طباعة / PDF</button>
+        </div>
+
+        <!-- Note about logo image -->
+        <div class="small-note">
+            ⚠️ تأكد من وجود ملف الشعار <code>logo.jpeg</code> في نفس مجلد هذه الصفحة.  
+            (Ensure the logo file <code>logo.jpeg</code> is in the same folder as this HTML.)
         </div>
     </div> <!-- نهاية الصفحة الثانية -->
-
-    <!-- أزرار الحفظ والمسح والطباعة (تظهر في كل الصفحات) -->
-    <div class="button-group">
-        <button class="save-button" onclick="saveFormData()">💾 حفظ البيانات</button>
-        <button class="clear-button" onclick="clearFormData()">🗑️ مسح الحقول</button>
-        <button class="print-button" onclick="window.print()">🖨️ طباعة / PDF</button>
-    </div>
-    <div class="small-note">
-        ✅ الشعار مضمّن بشكل دائري - استبدل my-logo.png بملف الشعار الخاص بك<br>
-        <span style="color: #c00;">ملاحظة: تأكد من وجود ملف my-logo.png في نفس مجلد الصفحة</span>
-    </div>
 </div>
 
-<!-- JavaScript للتنقل بين الصفحات والحفظ المحلي -->
+<!-- JavaScript for localStorage autosave and load -->
 <script>
-    // دالة التنقل بين الصفحات
-    function showPage(pageNum) {
-        // إخفاء كل الصفحات
-        document.getElementById('page1').classList.remove('active-page');
-        document.getElementById('page2').classList.remove('active-page');
-        
-        // إظهار الصفحة المطلوبة
-        document.getElementById('page'+pageNum).classList.add('active-page');
-        
-        // تحديث حالة الأزرار
-        document.getElementById('btnPage1').classList.remove('active');
-        document.getElementById('btnPage2').classList.remove('active');
-        document.getElementById('btnPage'+pageNum).classList.add('active');
-    }
-
-    // دوال الحفظ والمسح
     (function() {
         function getFormData() {
             const data = {};
+            data.hospitalName = document.getElementById('hospitalName')?.value || '';
+            data.day = document.getElementById('day')?.value || '';
+            data.bedCapacity = document.getElementById('bedCapacity')?.value || '';
+            data.date = document.getElementById('date')?.value || '';
+            data.cbahiStandard = document.getElementById('cbahiStandard')?.value || '';
+            data.monthNo = document.getElementById('monthNo')?.value || '';
+            data.notInactive = document.getElementById('notInactive')?.checked || false;
+            data.acWorking = document.getElementById('acWorking')?.checked || false;
+            data.acNotWorking = document.getElementById('acNotWorking')?.checked || false;
+
+            const allEditable = [];
             document.querySelectorAll('input, textarea').forEach(el => {
                 if (el.type === 'checkbox') {
-                    data[el.id || el.name || Math.random()] = el.checked;
+                    allEditable.push({ tag: 'checkbox', checked: el.checked, name: el.id || el.name });
                 } else {
-                    data[el.id || el.name || Math.random()] = el.value;
+                    allEditable.push({ tag: 'text', value: el.value, name: el.id || el.name });
                 }
             });
+            data.allEditable = allEditable;
             return data;
         }
-        
+
+        function loadFormData(data) {
+            if (!data) return;
+            if (data.hospitalName !== undefined) document.getElementById('hospitalName').value = data.hospitalName;
+            if (data.day !== undefined) document.getElementById('day').value = data.day;
+            if (data.bedCapacity !== undefined) document.getElementById('bedCapacity').value = data.bedCapacity;
+            if (data.date !== undefined) document.getElementById('date').value = data.date;
+            if (data.cbahiStandard !== undefined) document.getElementById('cbahiStandard').value = data.cbahiStandard;
+            if (data.monthNo !== undefined) document.getElementById('monthNo').value = data.monthNo;
+            if (data.notInactive !== undefined) document.getElementById('notInactive').checked = data.notInactive;
+            if (data.acWorking !== undefined) document.getElementById('acWorking').checked = data.acWorking;
+            if (data.acNotWorking !== undefined) document.getElementById('acNotWorking').checked = data.acNotWorking;
+
+            if (data.allEditable && Array.isArray(data.allEditable)) {
+                const inputs = document.querySelectorAll('input, textarea');
+                let idx = 0;
+                data.allEditable.forEach(item => {
+                    if (idx >= inputs.length) return;
+                    const el = inputs[idx];
+                    if (item.tag === 'checkbox' && el.type === 'checkbox') {
+                        el.checked = item.checked;
+                    } else if (el.type !== 'checkbox') {
+                        el.value = item.value || '';
+                    }
+                    idx++;
+                });
+            }
+        }
+
         window.saveFormData = function() {
             const data = getFormData();
             localStorage.setItem('positivePressureForm', JSON.stringify(data));
-            alert('✅ تم حفظ البيانات في المتصفح');
+            alert('تم حفظ البيانات في المتصفح');
         };
-        
+
         window.clearFormData = function() {
-            if (confirm('⚠️ سيتم مسح جميع المدخلات. هل أنت متأكد؟')) {
+            if (confirm('سيتم مسح جميع المدخلات. هل أنت متأكد؟')) {
                 document.querySelectorAll('input:not([type=checkbox]), textarea').forEach(el => el.value = '');
                 document.querySelectorAll('input[type=checkbox]').forEach(el => el.checked = false);
                 localStorage.removeItem('positivePressureForm');
-                alert('🗑️ تم مسح جميع الحقول');
             }
         };
-        
-        // استرجاع البيانات المحفوظة عند تحميل الصفحة
+
         window.addEventListener('load', function() {
             const saved = localStorage.getItem('positivePressureForm');
             if (saved) {
                 try {
                     const data = JSON.parse(saved);
-                    document.querySelectorAll('input, textarea').forEach(el => {
-                        if (el.type === 'checkbox') {
-                            if (data[el.id] !== undefined) el.checked = data[el.id];
-                        } else {
-                            if (data[el.id] !== undefined) el.value = data[el.id];
-                        }
-                    });
-                    console.log('✅ تم استرجاع البيانات المحفوظة');
-                } catch (e) { console.warn('خطأ في التحميل'); }
+                    loadFormData(data);
+                } catch (e) { console.warn('خطأ في تحميل البيانات'); }
             }
         });
 
-        // حفظ تلقائي (اختياري)
         let timeout;
         document.addEventListener('input', function() {
             clearTimeout(timeout);
-            timeout = setTimeout(() => saveFormData(), 1500);
+            timeout = setTimeout(() => {
+                saveFormData();
+            }, 800);
+        });
+        document.addEventListener('change', function() {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                saveFormData();
+            }, 800);
         });
     })();
 </script>
-<!-- تشغيل KaTeX -->
+<!-- KaTeX auto-render -->
 <script>
-    if (typeof renderMathInElement === 'function') {
-        renderMathInElement(document.body, {
-            delimiters: [
-                {left: '$$', right: '$$', display: true},
-                {left: '\\[', right: '\\]', display: true},
-                {left: '$', right: '$', display: false}
-            ]
-        });
-    }
+    (function () {
+        if (typeof renderMathInElement === 'function') {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '\\[', right: '\\]', display: true},
+                    {left: '$', right: '$', display: false}
+                ]
+            });
+        }
+    })();
 </script>
 </body>
 </html>
